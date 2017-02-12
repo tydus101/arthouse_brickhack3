@@ -13,6 +13,17 @@ public class playerController : MonoBehaviour {
 
 	bool facingRight;
 
+	//for jumping
+	bool grounded = false;
+	//make an array of colliders
+	Collider [] groundCollisions;
+
+	//make the bounds for the tiny circle check
+	float groundCheckRadius =.2f;
+	public LayerMask groundLayer;
+	public Transform groundCheck;
+	public float jumpHeight;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -29,7 +40,25 @@ public class playerController : MonoBehaviour {
 
 	void FixedUpdate()
 	{
+		//if character is grounded --> then we can jump
+		if (grounded && Input.GetAxis ("Jump") > 0)
+		{
+			grounded = false;
+			myAnim.SetBool ("grounded", grounded);
 
+			//add a force to throw charcter in the air (in y direction only)
+			myRB.AddForce(new Vector3(0,jumpHeight, 0)
+		}
+		groundCollisions = Physics.OverlapSphere (groundCheck.position, groundCheckRadius, groundLayer);
+		//if its collding with something
+		if (groundCollisions.Length > 0)
+			grounded = true;
+		else
+			grounded = false;
+
+		//set the aninimation --> should be able to land
+		myAnim.SetBool ("grounded", grounded);
+		
 		//if the player moves to the right
 		float move = Input.GetAxis ("Horizontal");
 		myAnim.SetFloat ("speed", Mathf.Abs (move));
