@@ -47,7 +47,7 @@ public class playerController : MonoBehaviour {
 			myAnim.SetBool ("grounded", grounded);
 
 			//add a force to throw charcter in the air (in y direction only)
-			myRB.AddForce(new Vector3(0,jumpHeight, 0)
+			myRB.AddForce(new Vector3(0,jumpHeight, 0));
 		}
 		groundCollisions = Physics.OverlapSphere (groundCheck.position, groundCheckRadius, groundLayer);
 		//if its collding with something
